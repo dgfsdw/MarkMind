@@ -25,11 +25,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Zip dist
-        run: zip -r markmind-dist.zip dist/
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: markmind-dist
-          path: markmind-dist.zip
+          path: dist/
