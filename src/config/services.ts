@@ -44,6 +44,21 @@ export const SERVICES: Record<string, ServiceConfig> = {
     helpLinkText: 'OpenRouter Dashboard',
     validateKey: (key: string) => key.startsWith('sk-or-') && key.length >= 30,
   },
+  'openai-compatible': {
+    id: 'openai-compatible',
+    name: 'OpenAI Compatible',
+    label: 'API Key (optional)',
+    storageKey: 'openaiCompatibleApiKey',
+    placeholder: 'Enter your API key (leave empty if not required)',
+    helpLink: 'https://platform.openai.com/docs/api-reference',
+    helpLinkText: 'OpenAI API Reference',
+    freeTierNote: 'Connect any server that speaks the OpenAI API format — e.g. Ollama, LM Studio, vLLM, or a custom proxy.',
+    validateKey: () => true,
+    baseUrlStorageKey: 'openaiCompatibleBaseUrl',
+    baseUrlLabel: 'Base URL',
+    baseUrlPlaceholder: 'https://your-server/v1',
+    allowEmptyKey: true,
+  },
 };
 
 export const DEFAULT_SERVICE_ID = 'google';
