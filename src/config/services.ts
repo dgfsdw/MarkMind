@@ -56,7 +56,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
     validateKey: () => true,
     baseUrlStorageKey: 'openaiCompatibleBaseUrl',
     baseUrlLabel: 'Base URL',
-    baseUrlPlaceholder: 'https://your-server/v1',
+    baseUrlPlaceholder: 'https://your-server',
     allowEmptyKey: true,
   },
 };

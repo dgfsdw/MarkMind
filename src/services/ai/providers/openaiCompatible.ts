@@ -25,7 +25,7 @@ export const fetchOpenAICompatibleModels = async (
     headers['Authorization'] = `Bearer ${apiKey}`;
   }
 
-  const response = await fetchWithTimeout(`${baseUrl}/models`, { headers });
+  const response = await fetchWithTimeout(`${baseUrl}/v1/models`, { headers });
 
   if (!response.ok) {
     await throwApiResponseError('OpenAI Compatible', response);
@@ -61,7 +61,7 @@ export const callOpenAICompatible = async (
     headers['Authorization'] = `Bearer ${apiKey}`;
   }
 
-  const response = await fetchWithTimeout(`${baseUrl}/chat/completions`, {
+  const response = await fetchWithTimeout(`${baseUrl}/v1/chat/completions`, {
     method: 'POST',
     headers,
     body: JSON.stringify({
