@@ -38,6 +38,7 @@ const ApiKeyPanel = ({
   const {
     currentService,
     apiKeyInput,
+    baseUrlInput,
     selectedModel,
     modelsRefreshTrigger,
     hasExistingKey,
@@ -47,6 +48,7 @@ const ApiKeyPanel = ({
     handleServiceChange,
     handleModelChange,
     handleApiKeyInputChange,
+    handleBaseUrlInputChange,
     handleApiKeySave,
     handleApiKeyInputKeyDown,
     handleApiKeyRemove,
@@ -235,9 +237,21 @@ const ApiKeyPanel = ({
                   </div>
                   <div className="api-key-titles">
                     <h3 className="api-key-title">{currentService.label || 'API Key'}</h3>
-                    <p className="api-key-subtitle">Required for AI features</p>
+                    <p className="api-key-subtitle">{currentService.allowEmptyKey ? 'Optional for AI features' : 'Required for AI features'}</p>
                   </div>
                 </div>
+
+                {currentService.baseUrlStorageKey && (
+                  <input
+                    type="url"
+                    value={baseUrlInput}
+                    onChange={handleBaseUrlInputChange}
+                    placeholder={currentService.baseUrlPlaceholder ?? 'https://your-server/v1'}
+                    autoComplete="off"
+                    disabled={!hasProviderSelected}
+                    aria-label={currentService.baseUrlLabel ?? 'Base URL'}
+                  />
+                )}
 
                 <input
                   type="password"

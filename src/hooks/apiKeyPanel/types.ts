@@ -22,8 +22,10 @@ export interface ApiKeyPanelState {
 export interface ApiKeyPanelHandlerDeps {
   currentService: ServiceConfig;
   apiKeyInput: string;
+  baseUrlInput: string;
   canClosePanel: boolean;
   setApiKeyInput: (value: string) => void;
+  setBaseUrlInput: (value: string) => void;
   setHasExistingKey: (value: boolean) => void;
   setStatus: (status: ApiKeyPanelStatusMessage) => void;
   setCurrentService: (service: ServiceConfig) => void;

@@ -6,6 +6,7 @@ interface HandleApiKeySaveDeps extends Pick<
   ApiKeyPanelHandlerDeps,
   | 'currentService'
   | 'apiKeyInput'
+  | 'baseUrlInput'
   | 'setHasExistingKey'
   | 'setApiKeyInput'
   | 'showStatusMessage'
@@ -21,6 +22,7 @@ export const createHandleApiKeySave = (deps: HandleApiKeySaveDeps) => {
     const {
       currentService,
       apiKeyInput,
+      baseUrlInput,
       setHasExistingKey,
       setApiKeyInput,
       showStatusMessage,
@@ -31,8 +33,9 @@ export const createHandleApiKeySave = (deps: HandleApiKeySaveDeps) => {
     } = deps;
 
     const trimmedKey = apiKeyInput.trim();
+    const trimmedBaseUrl = baseUrlInput.trim();
 
-    if (!trimmedKey) {
+    if (!trimmedKey && !currentService.allowEmptyKey) {
       showButtonError('Please enter an API key');
       return;
     }
@@ -42,8 +45,27 @@ export const createHandleApiKeySave = (deps: HandleApiKeySaveDeps) => {
       return;
     }
 
+    if (currentService.baseUrlStorageKey) {
+      if (!trimmedBaseUrl) {
+        showButtonError('Please enter a Base URL');
+        return;
+      }
+      try {
+        new URL(trimmedBaseUrl);
+      } catch {
+        showButtonError('Invalid Base URL format');
+        return;
+      }
+    }
+
     try {
-      await chrome.storage.local.set({ [currentService.storageKey]: trimmedKey });
+      const storageItems: Record<string, string> = {
+        [currentService.storageKey]: trimmedKey,
+      };
+      if (currentService.baseUrlStorageKey && trimmedBaseUrl) {
+        storageItems[currentService.baseUrlStorageKey] = trimmedBaseUrl;
+      }
+      await chrome.storage.local.set(storageItems);
       setHasExistingKey(true);
       setApiKeyInput('');
 
