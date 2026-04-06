@@ -51,7 +51,13 @@ export const createHandleApiKeySave = (deps: HandleApiKeySaveDeps) => {
         return;
       }
       try {
-        new URL(trimmedBaseUrl);
+        const parsed = new URL(trimmedBaseUrl);
+        const isLocalhost = parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1' || parsed.hostname === '::1';
+        const allowedProtocols = ['https:', ...(isLocalhost ? ['http:'] : [])];
+        if (!allowedProtocols.includes(parsed.protocol)) {
+          showButtonError('Base URL must use https:// (or http:// for localhost)');
+          return;
+        }
       } catch {
         showButtonError('Invalid Base URL format');
         return;
